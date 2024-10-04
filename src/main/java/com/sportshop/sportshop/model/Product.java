@@ -18,6 +18,9 @@ public class Product {
 
     private int stock;
 
+    // New field for image URL
+    private String imageUrl;
+
     // Getters and Setters
 
     public Long getId() {
@@ -83,5 +86,13 @@ public class Product {
     public void setStock(int stock) {
         this.stock = stock;
     }
-}
 
+    // Getter and Setter for imageUrl
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+}

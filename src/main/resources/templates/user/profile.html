@@ -1,31 +1,81 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+  <meta charset="UTF-8">
   <title>User Profile</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<div class="container">
-  <h2>User Profile</h2>
-  <form th:action="@{/user/profile/update}" th:object="${user}" method="post">
-    <div class="form-group">
-      <label for="fullName">Full Name:</label>
-      <input type="text" class="form-control" id="fullName" th:field="*{fullName}" required>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="/products">Sport Shop</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/products">Products</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/products/categories">Categories</a>
+        </li>
+      </ul>
+
+      <!-- Centered Search Button -->
+      <div class="mx-auto">
+        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#searchModal">
+          <i class="fas fa-search"></i> Search
+        </button>
+      </div>
     </div>
-    <div class="form-group">
-      <label for="city">City:</label>
-      <input type="text" class="form-control" id="city" th:field="*{city}">
+
+    <!-- User Profile and Logout Buttons -->
+    <div class="ml-auto">
+      <a href="/cart" class="btn btn-outline-success ml-2">
+        <i class="fas fa-shopping-cart"></i> Cart
+      </a>
+      <a href="/user/profile" class="btn btn-secondary ml-2">Profile</a>
+      <a th:if="${session.user}" href="/user/logout" class="btn btn-danger ml-2">Logout</a>
+      <a th:if="${session.user == null}" href="/user/login" class="btn btn-primary ml-2">Login</a>
     </div>
+  </div>
+</nav>
+
+<div class="container mt-5">
+  <h1>User Profile</h1>
+
+  <form th:action="@{/user/profile/update}" method="post" th:object="${user}">
+    <input type="hidden" th:field="*{id}" />
+
     <div class="form-group">
-      <label for="country">Country:</label>
-      <input type="text" class="form-control" id="country" th:field="*{country}">
+      <label for="fullName">Full Name</label>
+      <input type="text" class="form-control" id="fullName" th:field="*{fullName}" placeholder="Enter your full name" required>
     </div>
+
     <div class="form-group">
-      <label for="phone">Phone:</label>
-      <input type="text" class="form-control" id="phone" th:field="*{phone}">
+      <label for="city">City</label>
+      <input type="text" class="form-control" id="city" th:field="*{city}" placeholder="Enter your city" required>
     </div>
-    <button type="submit" class="btn btn-primary">Update</button>
+
+    <div class="form-group">
+      <label for="country">Country</label>
+      <input type="text" class="form-control" id="country" th:field="*{country}" placeholder="Enter your country" required>
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Phone</label>
+      <input type="tel" class="form-control" id="phone" th:field="*{phone}" placeholder="Enter your phone number" required>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="Enter your email" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update Profile</button>
   </form>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

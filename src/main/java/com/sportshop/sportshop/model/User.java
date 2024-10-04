@@ -18,6 +18,8 @@ public class User {
 
     private boolean isAdmin;
 
+    private boolean blocked = false;
+
     // Getters and Setters
 
     public Long getId() {
@@ -82,6 +84,14 @@ public class User {
 
     public void setAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
+    }
+
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(boolean b) {
+        blocked = b;
     }
 }
 

@@ -24,22 +24,28 @@ public class CartController {
 
     @GetMapping
     public String viewCart(Model model) {
-        Cart cart = cartService.getCurrentCart(); // Метод для получения текущей корзины
+        Cart cart = cartService.getCurrentCart();
         List<CartItem> cartItems = cart.getCartItems();
         model.addAttribute("cartItems", cartItems);
-        model.addAttribute("total", calculateTotal(cartItems)); // Метод для расчета общей стоимости
-        return "cart/view"; // Шаблон для отображения корзины
+        model.addAttribute("total", calculateTotal(cartItems));
+        return "cart/view";
     }
 
     @PostMapping("/add")
     public String addToCart(@RequestParam Long productId, @RequestParam int quantity) {
-        cartService.addProductToCart(productId, quantity); // Метод для добавления товара в корзину
+        cartService.addProductToCart(productId, 1);
         return "redirect:/cart";
     }
 
     @PostMapping("/remove")
     public String removeFromCart(@RequestParam Long itemId) {
-        cartService.removeCartItem(itemId); // Метод для удаления товара из корзины
+        cartService.removeCartItem(itemId);
+        return "redirect:/cart";
+    }
+
+    @PostMapping("/update")
+    public String updateCartItem(@RequestParam Long itemId, @RequestParam int quantity) {
+        cartService.updateCartItemQuantity(itemId, quantity);
         return "redirect:/cart";
     }
 

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .big-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            border: 2px solid #007bff;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .big-button:hover {
+            background-color: #f0f0f0;
+        }
+        .big-button a {
+            text-decoration: none;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <!-- Left side: Products & Users Buttons -->
+        <a class="navbar-brand" href="/admin">Admin Dashboard</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/products">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/users">Users</a>
+                </li>
+            </ul>
+        </div>
+        <!-- Right side: Logout Button -->
+        <div class="ml-auto">
+            <a href="/user/logout" class="btn btn-danger">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <!-- Large Button for Products -->
+            <div class="big-button">
+                <a href="/admin/products">Manage Products</a>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <!-- Large Button for Users -->
+            <div class="big-button">
+                <a href="/admin/users">Manage Users</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
