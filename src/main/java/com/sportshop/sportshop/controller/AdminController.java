@@ -122,7 +122,7 @@ public class AdminController {
 
     @PostMapping("/user/unblock/{id}")
     public String unblockUser(@PathVariable Long id) {
-        userService.unblockUser(id);  // разблокируем пользователя
+        userService.unblockUser(id);
         return "redirect:/admin/users";
     }
 

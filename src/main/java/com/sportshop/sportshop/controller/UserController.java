@@ -2,14 +2,11 @@ package com.sportshop.sportshop.controller;
 
 import com.sportshop.sportshop.model.*;
 import com.sportshop.sportshop.service.PurchaseHistoryService;
-import com.sportshop.sportshop.service.PurchaseService;
 import com.sportshop.sportshop.service.UserService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import jakarta.servlet.http.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +18,7 @@ public class UserController {
     private final UserService userService;
     private final PurchaseHistoryService purchaseHistoryService;
 
-    public UserController(UserService userService, PurchaseService purchaseService, PurchaseHistoryService purchaseHistoryService) {
+    public UserController(UserService userService, PurchaseHistoryService purchaseHistoryService) {
         this.userService = userService;
         this.purchaseHistoryService = purchaseHistoryService;
     }
@@ -55,7 +52,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password, HttpServletResponse response, HttpSession session) {
+    public String login(@RequestParam String username, @RequestParam String password, HttpSession session) {
         if (userService.isValidUser(username, password)) {
             User user = userService.findByEmail(username);
 
@@ -75,7 +72,7 @@ public class UserController {
     }
 
     @GetMapping("/logout")
-    public String logout(HttpServletResponse response, HttpSession session) {
+    public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/products";
     }

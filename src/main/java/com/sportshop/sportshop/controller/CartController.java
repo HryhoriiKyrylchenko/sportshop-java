@@ -2,11 +2,8 @@ package com.sportshop.sportshop.controller;
 
 import com.sportshop.sportshop.model.Cart;
 import com.sportshop.sportshop.model.CartItem;
-import com.sportshop.sportshop.model.Product;
 import com.sportshop.sportshop.service.CartService;
-import com.sportshop.sportshop.service.ProductService;
 import com.sportshop.sportshop.service.PurchaseService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +17,7 @@ public class CartController {
     private final CartService cartService;
     private final PurchaseService purchaseService;
 
-    public CartController(CartService cartService, ProductService productService, PurchaseService purchaseService) {
+    public CartController(CartService cartService, PurchaseService purchaseService) {
         this.cartService = cartService;
         this.purchaseService = purchaseService;
     }
@@ -60,12 +57,11 @@ public class CartController {
         Cart cart = cartService.getCurrentCart();
         model.addAttribute("cartItems", cart.getCartItems());
         model.addAttribute("total", calculateTotal(cart.getCartItems()));
-        return "cart/checkout"; // представление для checkout
+        return "cart/checkout";
     }
 
     @PostMapping("/checkout/confirm")
-    public String confirmCheckout(@RequestParam String deliveryMethod,
-                                  @RequestParam String paymentMethod, Model model) {
+    public String confirmCheckout(Model model) {
         Cart cart = cartService.getCurrentCart();
 
         if (cart.getUser() != null) {

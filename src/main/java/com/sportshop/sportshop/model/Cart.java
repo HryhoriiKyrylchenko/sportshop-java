@@ -19,8 +19,6 @@ public class Cart {
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> cartItems = new ArrayList<>();
 
-    // Getters and Setters
-
     public Long getId() {
         return id;
     }

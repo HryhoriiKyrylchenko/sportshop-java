@@ -26,19 +26,15 @@ public class UserService {
     }
 
     public void updateUser(User user) {
-        // Fetch the existing user by ID from the database
         User existingUser = userRepository.findById(user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        // Update only the fields that should be changed
         existingUser.setFullName(user.getFullName());
         existingUser.setCity(user.getCity());
         existingUser.setCountry(user.getCountry());
         existingUser.setPhone(user.getPhone());
         existingUser.setEmail(user.getEmail());
-        // Note: Don't update the password or admin status here as per your requirements
 
-        // Save the updated user back to the database
         userRepository.save(existingUser);
     }
 
@@ -70,7 +66,7 @@ public class UserService {
     public void unblockUser(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user ID: " + id));
-        user.setBlocked(false);  // разблокируем пользователя
+        user.setBlocked(false);
         userRepository.save(user);
     }
 

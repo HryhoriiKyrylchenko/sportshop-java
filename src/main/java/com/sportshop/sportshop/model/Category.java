@@ -15,7 +15,6 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private List<Product> products;
 
-    // Constructors, getters, and setters
     public Category() {
     }
 

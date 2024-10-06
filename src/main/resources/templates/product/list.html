@@ -18,7 +18,6 @@
                 </li>
             </ul>
 
-            <!-- Centered Search Button -->
             <div class="mx-auto">
                 <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#searchModal">
                     <i class="fas fa-search"></i> Search
@@ -26,7 +25,6 @@
             </div>
         </div>
 
-        <!-- User Profile and Logout Buttons -->
         <div class="ml-auto">
             <a href="/cart" class="btn btn-outline-success ml-2">
                 <i class="fas fa-shopping-cart"></i> Cart
@@ -41,7 +39,6 @@
 <div class="container mt-5">
     <h2 class="text-center">Product List</h2>
 
-    <!-- Product Cards in a grid layout -->
     <div class="row">
         <div class="col-md-4" th:each="product : ${products}">
             <div class="card mb-4 h-100">
@@ -56,7 +53,6 @@
                     <p class="card-text text-primary font-weight-bold">$<span th:text="${product.price}"></span></p>
                 </div>
 
-                <!-- Add to Cart Button (separate from the link) -->
                 <div class="card-footer text-center">
                     <form action="/cart/add" method="post">
                         <input type="hidden" th:value="${product.id}" name="productId"/>
@@ -68,7 +64,6 @@
     </div>
 </div>
 
-<!-- Search Modal -->
 <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -93,7 +88,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="category">Category</label>
-                            <!-- Dropdown list for categories -->
+
                             <select id="category" name="categoryId" class="form-control">
                                 <option value="" selected>All Categories</option>
                                 <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>

@@ -20,8 +20,6 @@ public class User {
 
     private boolean blocked = false;
 
-    // Getters and Setters
-
     public Long getId() {
         return id;
     }

@@ -58,7 +58,6 @@ public class ProductController {
         return "product/list";
     }
 
-
     @GetMapping("/details/{id}")
     public String getProductDetails(@PathVariable Long id, Model model) {
         Product product = productService.findById(id);
