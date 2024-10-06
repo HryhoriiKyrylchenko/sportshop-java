@@ -9,6 +9,8 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String sessionId;
+
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
@@ -27,6 +29,14 @@ public class CartItem {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 
     public Product getProduct() {

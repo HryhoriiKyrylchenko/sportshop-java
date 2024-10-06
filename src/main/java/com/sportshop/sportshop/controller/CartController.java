@@ -32,21 +32,47 @@ public class CartController {
     }
 
     @PostMapping("/add")
-    public String addToCart(@RequestParam Long productId, @RequestParam int quantity) {
+    public String addToCart(@RequestParam Long productId) {
         cartService.addProductToCart(productId, 1);
         return "redirect:/cart";
     }
 
     @PostMapping("/remove")
-    public String removeFromCart(@RequestParam Long itemId) {
-        cartService.removeCartItem(itemId);
+    public String removeFromCart(@RequestParam(required = false) Long itemId,
+                                 @RequestParam String itemSessionId) {
+        cartService.removeCartItem(itemId, itemSessionId);
         return "redirect:/cart";
     }
 
     @PostMapping("/update")
-    public String updateCartItem(@RequestParam Long itemId, @RequestParam int quantity) {
-        cartService.updateCartItemQuantity(itemId, quantity);
+    public String updateCartItem(@RequestParam(required = false) Long itemId,
+                                 @RequestParam String itemSessionId,
+                                 @RequestParam int quantity) {
+        cartService.updateCartItemQuantity(itemId, itemSessionId, quantity);
         return "redirect:/cart";
+    }
+
+    @GetMapping("/checkout")
+    public String checkout(Model model) {
+        Cart cart = cartService.getCurrentCart();
+        model.addAttribute("cartItems", cart.getCartItems());
+        model.addAttribute("total", calculateTotal(cart.getCartItems()));
+        return "cart/checkout"; // представление для checkout
+    }
+
+    @PostMapping("/checkout/confirm")
+    public String confirmCheckout(@RequestParam String deliveryMethod,
+                                  @RequestParam String paymentMethod, Model model) {
+        Cart cart = cartService.getCurrentCart();
+
+        if (cart.getUser() != null) {
+            cartService.clearCartForAuthenticatedUser(cart);
+        } else {
+            cartService.clearCartForAnonymousUser();
+        }
+
+        model.addAttribute("message", "Your purchase was successful!");
+        return "cart/confirm";
     }
 
     private double calculateTotal(List<CartItem> cartItems) {

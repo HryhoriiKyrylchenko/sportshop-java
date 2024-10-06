@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Success</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="/products">Sport Shop</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/products">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/products/categories">Categories</a>
+                </li>
+            </ul>
+
+            <!-- Search Button -->
+            <div class="mx-auto">
+                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#searchModal">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+
+            <!-- User Profile and Logout Buttons -->
+            <div class="ml-auto">
+                <a href="/cart" class="btn btn-outline-success ml-2">
+                    <i class="fas fa-shopping-cart"></i> Cart
+                </a>
+                <a href="/user/profile" class="btn btn-secondary ml-2">Profile</a>
+                <a th:if="${session.user}" href="/user/logout" class="btn btn-danger ml-2">Logout</a>
+                <a th:if="${session.user == null}" href="/user/login" class="btn btn-primary ml-2">Login</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Success Message Section -->
+<div class="container mt-5 text-center">
+    <h1 class="display-4 text-success">Purchase Successful</h1>
+    <p class="lead" th:text="${message}"></p>
+
+    <!-- Go back to homepage -->
+    <a href="/products" class="btn btn-outline-primary btn-lg mt-4">
+        <i class="fas fa-home"></i> Go back to the homepage
+    </a>
+</div>
+
+<!-- Optional Bootstrap and FontAwesome JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
