@@ -1,5 +1,6 @@
 package com.sportshop.sportshop.service;
 
+import com.sportshop.sportshop.model.Category;
 import com.sportshop.sportshop.model.Product;
 import com.sportshop.sportshop.repository.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public List<Product> searchProducts(String name, String brand, String category, Double minPrice, Double maxPrice, String size, String color) {
+    public List<Product> searchProducts(String name, String brand, Category category, Double minPrice, Double maxPrice, String size, String color) {
         return productRepository.searchProducts(name, brand, category, minPrice, maxPrice, size, color);
     }
 
@@ -50,6 +51,7 @@ public class ProductService {
         existingProduct.setPrice(product.getPrice());
         existingProduct.setSize(product.getSize());
         existingProduct.setColor(product.getColor());
+        existingProduct.setImageUrl(product.getImageUrl());
 
         productRepository.save(existingProduct);
     }

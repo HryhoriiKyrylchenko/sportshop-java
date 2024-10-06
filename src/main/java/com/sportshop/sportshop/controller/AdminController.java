@@ -1,7 +1,9 @@
 package com.sportshop.sportshop.controller;
 
+import com.sportshop.sportshop.model.Category;
 import com.sportshop.sportshop.model.Product;
 import com.sportshop.sportshop.model.User;
+import com.sportshop.sportshop.service.CategoryService;
 import com.sportshop.sportshop.service.ProductService;
 import com.sportshop.sportshop.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -18,11 +20,13 @@ public class AdminController {
     private final ProductService productService;
     private final HttpSession session;
     private final UserService userService;
+    private final CategoryService categoryService;
 
-    public AdminController(ProductService productService, HttpSession session, UserService userService) {
+    public AdminController(ProductService productService, HttpSession session, UserService userService, CategoryService categoryService) {
         this.productService = productService;
         this.session = session;
         this.userService = userService;
+        this.categoryService = categoryService;
     }
 
     @GetMapping
@@ -48,6 +52,10 @@ public class AdminController {
     public String showAddProductForm(Model model) {
         if(isNotAdmin(session)) return "redirect:/user/login";
         model.addAttribute("product", new Product());
+
+        List<Category> categories = categoryService.findAllCategories();
+        model.addAttribute("categories", categories);
+
         return "admin/add-product";
     }
 
@@ -66,7 +74,14 @@ public class AdminController {
             return "redirect:/user/login";
         }
         Product product = productService.findById(id);
+        if (product == null) {
+            return "redirect:/admin/products";
+        }
+
+        List<Category> categories = categoryService.findAllCategories();
+
         model.addAttribute("product", product);
+        model.addAttribute("categories", categories);
         return "admin/edit-product";
     }
 
@@ -115,6 +130,44 @@ public class AdminController {
     public String deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return "redirect:/admin/users";
+    }
+
+    @GetMapping("/categories")
+    public String listCategories(Model model) {
+        model.addAttribute("categories", categoryService.findAllCategories());
+        return "admin/categories-list";
+    }
+
+    @GetMapping("/category/add")
+    public String showCategoryForm(Model model) {
+        model.addAttribute("category", new Category());
+        return "admin/add-category";
+    }
+
+    @PostMapping("/category/save")
+    public String saveCategory(@ModelAttribute("category") Category category) {
+        categoryService.saveCategory(category);
+        return "redirect:/admin/categories";
+    }
+
+    @GetMapping("/category/edit/{id}")
+    public String showEditForm(@PathVariable("id") Long id, Model model) {
+        Category category = categoryService.findCategoryById(id);
+        model.addAttribute("category", category);
+        return "admin/edit-category";
+    }
+
+    @PostMapping("/category/update/{id}")
+    public String updateCategory(@PathVariable("id") Long id, @ModelAttribute("category") Category category) {
+        category.setId(id);
+        categoryService.saveCategory(category);
+        return "redirect:/admin/categories";
+    }
+
+    @GetMapping("/category/delete/{id}")
+    public String deleteCategory(@PathVariable("id") Long id) {
+        categoryService.deleteCategory(id);
+        return "redirect:/admin/categories";
     }
 
     private boolean isNotAdmin(HttpSession session) {

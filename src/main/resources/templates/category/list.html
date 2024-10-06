@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+  <meta charset="UTF-8">
+  <title>Categories</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="/products">Sport Shop</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/products">Products</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/products/categories">Categories</a>
+        </li>
+      </ul>
+    </div>
+    
+    <!-- User Profile and Logout Buttons -->
+    <div class="ml-auto">
+      <a href="/cart" class="btn btn-outline-success ml-2">
+        <i class="fas fa-shopping-cart"></i> Cart
+      </a>
+      <a href="/user/profile" class="btn btn-secondary ml-2">Profile</a>
+      <a th:if="${session.user}" href="/user/logout" class="btn btn-danger ml-2">Logout</a>
+      <a th:if="${session.user == null}" href="/user/login" class="btn btn-primary ml-2">Login</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-5">
+  <h2 class="text-center">Categories</h2>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="list-group">
+        <div th:each="category : ${categories}">
+          <a th:href="@{/products/search(categoryId=${category.id})}" class="list-group-item list-group-item-action">
+            <span th:text="${category.name}"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

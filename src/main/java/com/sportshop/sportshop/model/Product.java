@@ -11,17 +11,15 @@ public class Product {
 
     private String name;
     private String brand;
-    private String category;
     private double price;
     private String size;
     private String color;
-
     private int stock;
-
-    // New field for image URL
     private String imageUrl;
 
-    // Getters and Setters
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     public Long getId() {
         return id;
@@ -45,14 +43,6 @@ public class Product {
 
     public void setBrand(String brand) {
         this.brand = brand;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
     }
 
     public double getPrice() {
@@ -87,12 +77,19 @@ public class Product {
         this.stock = stock;
     }
 
-    // Getter and Setter for imageUrl
     public String getImageUrl() {
         return imageUrl;
     }
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

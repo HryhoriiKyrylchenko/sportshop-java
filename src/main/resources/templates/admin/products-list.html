@@ -14,6 +14,9 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
+                    <a class="nav-link" href="/admin/categories">Categories</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/admin/users">Users</a>
                 </li>
             </ul>
@@ -46,7 +49,7 @@
         <tr th:each="product : ${products}">
             <td th:text="${product.name}"></td>
             <td th:text="${product.brand}"></td>
-            <td th:text="${product.category}"></td>
+            <td th:text="${product.category.getName()}"></td>
             <td th:text="${product.price}"></td>
             <td th:text="${product.getImageUrl()}"></td>
             <td>
