@@ -38,6 +38,7 @@
             <th>Brand</th>
             <th>Category</th>
             <th>Price</th>
+            <th>ImageURL</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -47,6 +48,7 @@
             <td th:text="${product.brand}"></td>
             <td th:text="${product.category}"></td>
             <td th:text="${product.price}"></td>
+            <td th:text="${product.getImageUrl()}"></td>
             <td>
                 <a th:href="@{/admin/product/edit/{id}(id=${product.id})}" class="btn btn-primary">Edit</a>
                 <form th:action="@{/admin/product/delete/{id}(id=${product.id})}" method="post" style="display:inline;">

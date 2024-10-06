@@ -5,6 +5,7 @@ import com.sportshop.sportshop.model.CartItem;
 import com.sportshop.sportshop.model.Product;
 import com.sportshop.sportshop.service.CartService;
 import com.sportshop.sportshop.service.ProductService;
+import com.sportshop.sportshop.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +18,11 @@ import java.util.List;
 public class CartController {
 
     private final CartService cartService;
+    private final PurchaseService purchaseService;
 
-    public CartController(CartService cartService, ProductService productService) {
+    public CartController(CartService cartService, ProductService productService, PurchaseService purchaseService) {
         this.cartService = cartService;
+        this.purchaseService = purchaseService;
     }
 
     @GetMapping
@@ -66,6 +69,7 @@ public class CartController {
         Cart cart = cartService.getCurrentCart();
 
         if (cart.getUser() != null) {
+            purchaseService.savePurchase(cart);
             cartService.clearCartForAuthenticatedUser(cart);
         } else {
             cartService.clearCartForAnonymousUser();

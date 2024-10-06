@@ -1,7 +1,8 @@
 package com.sportshop.sportshop.controller;
 
-import com.sportshop.sportshop.model.Product;
-import com.sportshop.sportshop.model.User;
+import com.sportshop.sportshop.model.*;
+import com.sportshop.sportshop.service.PurchaseHistoryService;
+import com.sportshop.sportshop.service.PurchaseService;
 import com.sportshop.sportshop.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpSession;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -17,9 +19,11 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final PurchaseHistoryService purchaseHistoryService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, PurchaseService purchaseService, PurchaseHistoryService purchaseHistoryService) {
         this.userService = userService;
+        this.purchaseHistoryService = purchaseHistoryService;
     }
 
     @GetMapping
@@ -79,11 +83,30 @@ public class UserController {
     @GetMapping("/profile")
     public String viewProfile(Model model, HttpSession session) {
         User sessionUser = (User) session.getAttribute("user");
+
+        if (sessionUser == null) {
+            return "redirect:/user/login";
+        }
+
         User user = userService.findById(sessionUser.getId());
         if (user == null) {
             return "redirect:/user/login";
         }
         model.addAttribute("user", user);
+
+        List<PurchaseHistory> purchaseHistoryList = purchaseHistoryService.findByUser(user);
+        List<PurchaseHistoryDto> purchaseHistoryDtos = new ArrayList<>();
+
+        for (PurchaseHistory history : purchaseHistoryList) {
+            double totalPrice = history.getItems().stream()
+                    .mapToDouble(item -> item.getPrice() * item.getQuantity())
+                    .sum();
+
+            purchaseHistoryDtos.add(new PurchaseHistoryDto(history.getPurchaseDate(), totalPrice, history.getItems()));
+        }
+
+        model.addAttribute("purchaseHistoryDtos", purchaseHistoryDtos);
+
         return "user/profile";
     }
 

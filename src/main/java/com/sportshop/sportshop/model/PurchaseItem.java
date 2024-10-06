@@ -3,13 +3,10 @@ package com.sportshop.sportshop.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "cart_items")
-public class CartItem {
+public class PurchaseItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String sessionId;
 
     @ManyToOne
     @JoinColumn(name = "purchase_history_id")
@@ -19,13 +16,9 @@ public class CartItem {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @ManyToOne
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
-
     private int quantity;
 
-    // Getters and Setters
+    private Double price;
 
     public Long getId() {
         return id;
@@ -35,12 +28,12 @@ public class CartItem {
         this.id = id;
     }
 
-    public String getSessionId() {
-        return sessionId;
+    public PurchaseHistory getPurchaseHistory() {
+        return purchaseHistory;
     }
 
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
+    public void setPurchaseHistory(PurchaseHistory purchaseHistory) {
+        this.purchaseHistory = purchaseHistory;
     }
 
     public Product getProduct() {
@@ -51,12 +44,12 @@ public class CartItem {
         this.product = product;
     }
 
-    public Cart getCart() {
-        return cart;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setCart(Cart cart) {
-        this.cart = cart;
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     public int getQuantity() {
@@ -67,4 +60,3 @@ public class CartItem {
         this.quantity = quantity;
     }
 }
-
