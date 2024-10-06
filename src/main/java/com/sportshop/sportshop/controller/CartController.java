@@ -2,8 +2,11 @@ package com.sportshop.sportshop.controller;
 
 import com.sportshop.sportshop.model.Cart;
 import com.sportshop.sportshop.model.CartItem;
+import com.sportshop.sportshop.model.User;
 import com.sportshop.sportshop.service.CartService;
 import com.sportshop.sportshop.service.PurchaseService;
+import com.sportshop.sportshop.service.UserHistoryService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +19,12 @@ public class CartController {
 
     private final CartService cartService;
     private final PurchaseService purchaseService;
+    private final UserHistoryService userHistoryService;
 
-    public CartController(CartService cartService, PurchaseService purchaseService) {
+    public CartController(CartService cartService, PurchaseService purchaseService, UserHistoryService userHistoryService) {
         this.cartService = cartService;
         this.purchaseService = purchaseService;
+        this.userHistoryService = userHistoryService;
     }
 
     @GetMapping
@@ -61,7 +66,7 @@ public class CartController {
     }
 
     @PostMapping("/checkout/confirm")
-    public String confirmCheckout(Model model) {
+    public String confirmCheckout(Model model, HttpSession session) {
         Cart cart = cartService.getCurrentCart();
 
         if (cart.getUser() != null) {
@@ -69,6 +74,14 @@ public class CartController {
             cartService.clearCartForAuthenticatedUser(cart);
         } else {
             cartService.clearCartForAnonymousUser();
+        }
+
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            userHistoryService.logUserAction(null, "Purchased item(s)");
+        }
+        else {
+            userHistoryService.logUserAction(user.getId(), "Purchased item(s)");
         }
 
         model.addAttribute("message", "Your purchase was successful!");

@@ -22,7 +22,6 @@ public class PurchaseHistoryService {
         return purchaseHistoryRepository.findByUserId(user.getId());
     }
 
-
     public PurchaseHistory save(PurchaseHistory purchaseHistory) {
         return purchaseHistoryRepository.save(purchaseHistory);
     }

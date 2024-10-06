@@ -2,8 +2,11 @@ package com.sportshop.sportshop.controller;
 
 import com.sportshop.sportshop.model.Category;
 import com.sportshop.sportshop.model.Product;
+import com.sportshop.sportshop.model.User;
 import com.sportshop.sportshop.service.CategoryService;
 import com.sportshop.sportshop.service.ProductService;
+import com.sportshop.sportshop.service.UserHistoryService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +19,12 @@ public class ProductController {
 
     private final ProductService productService;
     private final CategoryService categoryService;
+    private final UserHistoryService userHistoryService;
 
-    public ProductController(ProductService productService, CategoryService categoryService) {
+    public ProductController(ProductService productService, CategoryService categoryService, UserHistoryService userHistoryService) {
         this.productService = productService;
         this.categoryService = categoryService;
+        this.userHistoryService = userHistoryService;
     }
 
     @GetMapping
@@ -42,7 +47,8 @@ public class ProductController {
             @RequestParam(required = false) Double maxPrice,
             @RequestParam(required = false) String size,
             @RequestParam(required = false) String color,
-            Model model) {
+            Model model,
+            HttpSession session) {
 
         Category category = null;
         if (categoryId != null) {
@@ -55,16 +61,34 @@ public class ProductController {
 
         List<Category> categories = categoryService.findAllCategories();
         model.addAttribute("categories", categories);
+
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            userHistoryService.logUserAction(null, "Searched products");
+        }
+        else {
+            userHistoryService.logUserAction(user.getId(), "Searched products");
+        }
+
         return "product/list";
     }
 
     @GetMapping("/details/{id}")
-    public String getProductDetails(@PathVariable Long id, Model model) {
+    public String getProductDetails(@PathVariable Long id, Model model, HttpSession session) {
         Product product = productService.findById(id);
         if (product == null) {
-            return "redirect:/products?error=notfound";
+            return "redirect:/products";
         }
         model.addAttribute("product", product);
+
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            userHistoryService.logUserAction(null, "Viewed product with id " + id);
+        }
+        else {
+            userHistoryService.logUserAction(user.getId(), "Viewed product with id " + id);
+        }
+
         return "product/details";
     }
 
